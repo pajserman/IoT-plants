@@ -6,6 +6,7 @@ import keys
 import network
 from umqttsimple import MQTTClient
 import ubinascii
+import json
 
 # Pin variables
 waetherPin = Pin(27, Pin.OUT, Pin.PULL_DOWN)
@@ -21,19 +22,7 @@ MQTT_BROKER = "192.168.1.226"
 MQTT_TOPIC_TEMP = "Pico/sensor/Temperature"
 MQTT_TOPIC_HUMIDITY = "Pico/sensor/Humidity"
 MQTT_TOPIC_SUNSHINE = "Pico/sensor/Sunshine"
-
-#setup MQTTClient
-client_id = ubinascii.hexlify(machine.unique_id())
-mqtt_client = MQTTClient(client_id, MQTT_BROKER)
-mqtt_client.connect()
-
-def gather_data():
-    weatherSensor.measure()
-    tempC = weatherSensor.temperature()
-    hum = weatherSensor.humidity()
-    sun = (lightPin.value() + 1) % 2
-    data = {'temperature': str(tempC), 'humidity': str(hum), 'sunshine': str(sun)}
-    return data 
+MQTT_TOPIC_SENSOR = "Pico/sensor"
 
 # wlan needs to be global, defined outside of function
 wlan = network.WLAN(network.STA_IF)
@@ -57,6 +46,19 @@ def connect_to_wifi():
 # Connecting to WIFI
 connect_to_wifi()
 
+#setup MQTTClient
+client_id = ubinascii.hexlify(machine.unique_id())
+mqtt_client = MQTTClient(client_id, MQTT_BROKER)
+mqtt_client.connect()
+
+def gather_data():
+    weatherSensor.measure()
+    tempC = weatherSensor.temperature()
+    hum = weatherSensor.humidity()
+    sun = (lightPin.value() + 1) % 2
+    data = {'temperature': tempC, 'humidity': hum, 'sunshine': sun}
+    return data 
+
 # THE MAIN LOOP
 while(True):
     while(wlan.isconnected() == True):
@@ -65,10 +67,13 @@ while(True):
 
         # publish data
         led.toggle()
-        mqtt_client.publish(MQTT_TOPIC_TEMP, data['temperature'])
-        mqtt_client.publish(MQTT_TOPIC_HUMIDITY, data['humidity'])
-        mqtt_client.publish(MQTT_TOPIC_SUNSHINE, data['sunshine'])
+        #mqtt_client.publish(MQTT_TOPIC_TEMP, data['temperature'])
+        #mqtt_client.publish(MQTT_TOPIC_HUMIDITY, data['humidity'])
+        #mqtt_client.publish(MQTT_TOPIC_SUNSHINE, data['sunshine'])
+        
+        json_string = json.dumps(data)
+        mqtt_client.publish(MQTT_TOPIC_SENSOR, json_string)
         led.toggle()
-        time.sleep(10)
+        time.sleep(5)
     else:
         connect_to_wifi()
