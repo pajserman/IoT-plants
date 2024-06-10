@@ -1,5 +1,6 @@
 import machine
 from machine import Pin
+from machine import PWM
 import time
 from dht import DHT11
 import keys
@@ -7,6 +8,12 @@ import network
 from umqttsimple import MQTTClient
 import ubinascii
 import json
+
+# setup tone generator
+buzzer = PWM(Pin(5))
+buzzer.freq(2093)
+buzzer.duty_u16(0)
+
 
 # Pin variables
 waetherPin = Pin(27, Pin.OUT, Pin.PULL_DOWN)
@@ -64,6 +71,13 @@ while(True):
     while(wlan.isconnected() == True):
         data = gather_data() #data {temp, hum, sun}
         print(data)
+
+        # sounding alarm if sun is to intense
+        if (data['sunshine'] == 0):
+            buzzer.duty_u16(1000)
+        else:
+            buzzer.duty_u16(0)
+        
 
         # publish data
         led.toggle()
