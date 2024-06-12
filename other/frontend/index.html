@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+<meta name="theme-color" content="black">
+    <title>Plants</title>
+</head>
+<script>
+    
+    //my router is a bit weird so if I access my domain plants.hannes.pro
+    //from inside my own network i get forwarded to my router log in page instead of
+    //the computer hosting the website.
+    //this functions returns the local adress if the client is on the local network.
+    // all other cases it returns plants.hannes.pro
+    let chooseURL = async () => {
+        let url2 = "http://3black:8080"
+        let url1 = "https://plants.hannes.pro"
+        return await fetch(url1)
+        .then((res) => {
+            if(res.status == 200) {
+                return url1
+            } else {
+                return url2
+            }
+        }).catch(() => url2)
+    }
+
+    //simply gets the json data from plants.hannes.pro
+    let getData = async () => {
+        let url = await chooseURL()
+        const data = await fetch(url).then(res => res.json())
+        .catch(() => {
+            console.error("Could not get data API offline")
+            $(".container").html('<h2 style="text-align:center; font-size:3rem;">Offline</h2>')
+            setTimeout(function(){
+                getData()
+            }, 5000);
+        })
+
+        let temp = data.temperature
+        let hum = data.humidity
+        let sun = data.sunshine
+        let time = data.time
+
+        //insert data into the body
+        $("div.temp").html(`<span>${temp}°
+C</span>`)
+        $("div.hum").html(`<span><pre>${hum}  %</pre></span>`)
+        $("div.sun").html(`<span>${sun}</span>`)
+        $("div.time").html(`<span>Last updated: ${time}</span>`)
+
+        if(sun === true) {
+            $("div.sun").removeClass("false")
+            $("div.sun").addClass("true")
+        } else {
+            $("div.sun").removeClass("true")
+            $("div.sun").addClass("false")
+        }
+
+    //runs every 5 seconds
+    setTimeout(function(){
+        getData()
+    }, 5000);
+        
+    }
+
+    setTimeout(function(){
+        getData()
+    }, 0);
+</script>
+
+<body>
+    <header>
+        <h1>Data from plant weather station</h1>
+    </header>
+    <div class="container">
+        <h2>Temperature and humidity</h2>
+        <div class="temp-hum">
+            <div class="temp digital true"></div>
+            <div class="hum digital false"></div>
+        </div>
+        
+        <h2>Plants in shadow?</h2>
+        <div class="sun digital"></div>
+
+        <div class="time"></div>
+    </div>
+    
+</body>
+<style>
+
+    /* ----- RESET CSS ----- */
+    /* http://meyerweb.com/eric/tools/css/reset/ 
+    v2.0 | 20110126
+    License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* ----- END OF RESET CSS ----- */
+
+/* ----- GOOGLE FONTS ----- */
+    body {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    }
+
+    .digital {
+    font-family: "Orbitron", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    }
+
+
+/* ----- END GOOGLE FONTS */
+
+
+    body, html {
+        background-color: black;
+        color: white;
+        font-size: 16px;
+	cursor: none;
+    }
+
+    header {
+        padding: 1em;
+        margin-bottom: 2em;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    h2 {
+        font-size: 1.5em;
+        margin-bottom: 1rem;
+    }
+
+    .container {
+        width: 90%;
+        margin: auto;
+    }
+
+    .temp-hum {
+        padding: 1rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        column-gap: 4rem;
+        font-size: 5em;
+    }
+
+    .sun {
+        padding: 1rem;
+        text-transform: uppercase;
+        font-size: 2em;
+    }
+
+    .sun.true {
+        background-color: green;
+    }
+
+    .sun.false{
+        background-color: red;
+    }
+
+    .time {
+        padding: 1rem;
+        padding-left: 0;
+    }
+</style>
+</html>
