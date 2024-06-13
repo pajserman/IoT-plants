@@ -33,7 +33,7 @@
         }).catch(() => url2)
     }
 
-    //simply gets the json data from plants.hannes.pro
+    //gets the json data from plants.hannes.pro
     let getData = async () => {
         let url = await chooseURL()
         const data = await fetch(url).then(res => res.json())
@@ -51,8 +51,7 @@
         let time = data.time
 
         //insert data into the body
-        $("div.temp").html(`<span>${temp}°
-C</span>`)
+        $("div.temp").html(`<span>${temp}° C</span>`)
         $("div.hum").html(`<span><pre>${hum}  %</pre></span>`)
         $("div.sun").html(`<span>${sun}</span>`)
         $("div.time").html(`<span>Last updated: ${time}</span>`)

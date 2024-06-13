@@ -19,6 +19,8 @@ buzzer.duty_u16(0)
 waetherPin = Pin(27, Pin.OUT, Pin.PULL_DOWN)
 weatherSensor = DHT11(waetherPin)
 lightPin = Pin(15, Pin.IN, Pin.PULL_DOWN)
+# using the built in LED as an indicator:
+# ON=connecting to WIFI, fast ON/OFF=sent/sending data
 led = Pin("LED", machine.Pin.OUT)
 
 # WIFI variables
@@ -26,16 +28,14 @@ ssid, password = keys.WIFI_SSID, keys.WIFI_PASS
 
 # MQTT variables
 MQTT_BROKER = "192.168.1.226"
-MQTT_TOPIC_TEMP = "Pico/sensor/Temperature"
-MQTT_TOPIC_HUMIDITY = "Pico/sensor/Humidity"
-MQTT_TOPIC_SUNSHINE = "Pico/sensor/Sunshine"
+# MQTT_TOPIC_TEMP = "Pico/sensor/Temperature"
+# MQTT_TOPIC_HUMIDITY = "Pico/sensor/Humidity"
+# MQTT_TOPIC_SUNSHINE = "Pico/sensor/Sunshine"
 MQTT_TOPIC_SENSOR = "Pico/sensor"
 
 # wlan needs to be global, defined outside of function
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
-
-
 def connect_to_wifi():
     led.on()
     limit = 0
