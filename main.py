@@ -32,6 +32,12 @@ MQTT_BROKER = "192.168.1.226"
 # MQTT_TOPIC_HUMIDITY = "Pico/sensor/Humidity"
 # MQTT_TOPIC_SUNSHINE = "Pico/sensor/Sunshine"
 MQTT_TOPIC_SENSOR = "Pico/sensor"
+MQTT_TOPIC_ERROR_COLLECTING = "Pico/error/collecting"
+MQTT_TOPIC_ERROR_OTHER = "Pico/error/other"
+collecting = 0
+other = 0
+
+
 
 # wlan needs to be global, defined outside of function
 wlan = network.WLAN(network.STA_IF)
@@ -65,32 +71,43 @@ def gather_data():
     weatherSensor.measure()
     tempC = weatherSensor.temperature()
     hum = weatherSensor.humidity()
-    sun = (lightPin.value() + 1) % 2
+    sun = (lightPin.value() + 1) % 2 #inverting input 1 becomes 0
     data = {'temperature': tempC, 'humidity': hum, 'sunshine': sun}
     return data
 
 
 # THE MAIN LOOP
 while (True):
-    while (wlan.isconnected() == True):
-        data = gather_data()  # data {temp, hum, sun}
-        print(data)
+    try:
+        while (wlan.isconnected() == True):
+            try:
+                data = gather_data()  # data {temp, hum, sun}
+                print(data)
+            except:
+                collecting += 1
+                mqtt_client.publish(MQTT_TOPIC_ERROR_COLLECTING, str(collecting))
+                print("Something went wrong in collecting data sleeping 5 ...")
+                time.sleep(5)
+            # sounding alarm if sun is to intense
+            if (data['sunshine'] == 0):
+                buzzer.duty_u16(1000)
+            else:
+                buzzer.duty_u16(0)
 
-        # sounding alarm if sun is to intense
-        if (data['sunshine'] == 0):
-            buzzer.duty_u16(1000)
+            # publish data
+            led.toggle()
+            # mqtt_client.publish(MQTT_TOPIC_TEMP, data['temperature'])
+            # mqtt_client.publish(MQTT_TOPIC_HUMIDITY, data['humidity'])
+            # mqtt_client.publish(MQTT_TOPIC_SUNSHINE, data['sunshine'])
+
+            json_string = json.dumps(data)
+            mqtt_client.publish(MQTT_TOPIC_SENSOR, json_string)
+            led.toggle()
+            time.sleep(5)
         else:
-            buzzer.duty_u16(0)
-
-        # publish data
-        led.toggle()
-        # mqtt_client.publish(MQTT_TOPIC_TEMP, data['temperature'])
-        # mqtt_client.publish(MQTT_TOPIC_HUMIDITY, data['humidity'])
-        # mqtt_client.publish(MQTT_TOPIC_SUNSHINE, data['sunshine'])
-
-        json_string = json.dumps(data)
-        mqtt_client.publish(MQTT_TOPIC_SENSOR, json_string)
-        led.toggle()
+            connect_to_wifi()
+    except:
+        other += 1
+        mqtt_client.publish(MQTT_TOPIC_ERROR_OTHER, str(other))
+        print("Something went wrong in collecting data sleeping 5 ...")
         time.sleep(5)
-    else:
-        connect_to_wifi()
