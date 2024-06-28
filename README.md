@@ -216,14 +216,14 @@ while (True):
 ```
 
 
-I also want to add a small note on the `gather_data()` function. If you studied the [[#The sunshine sensor |circuit diagram]] of the sunshine sensor you might realize the output *Vs* is the opposite of the LED indicator. I of course want them to be the same (LED on = True/1). That is why I invert the input in the code:
+I also want to add a small note on the `gather_data()` function. If you studied the [circuit diagram](https://github.com/pajserman/IoT-plants/tree/master?tab=readme-ov-file#the-sunshine-sensor) of the sunshine sensor you might realize the output *Vs* is the opposite of the LED indicator. I of course want them to be the same (LED on = True/1). That is why I invert the input in the code:
 
 `sun = (lightPin.value() + 1) % 2 #inverting input 1 becomes 0`
 # Transmitting the data / connectivity
 
 Down below is a graf that describes how the whole project is connected together. The data from the DHT11 sensor is sent over a proprietary protocol handled by the DHT11 library using a physical wire. The sunshine sensor is just a simpel HIGH or LOW voltage. The Pico sends the enviroment data every 5 seconds over WIFI using the MQTT protocol to the router. The router forwards the message to the Raspberrypi Pi where the Mosquito MQTT broker listens on that port. The data then takes two paths:
 
-Node-red, which is on the same network (as in a internal docker network) as the mosquitto broker, push the data to the Influx Database. Grafana which can be accessed on the local network has access to the Influx Database.
+Node-red, which is on the same network (as in a internal docker network) as the mosquitto broker, pushes the data to the Influx Database. Grafana which can be accessed on the local network has access to the Influx Database.
 
 The other path goes trough a very [simple API](https://github.com/pajserman/IoT-plants/tree/master/other/backend) that I wrote myself that just forwards the data under the topic *Pico/sensor* from the MQTT broker. This API is open to the internet. In this way I can check my plants environment in real time anywhere on earth without having to expose the MQTT broker or Grafana to the internet. The whole reason for hosting everything myself was due to privacy, remember? I might want to use the MQTT broker and Grafan for other projects in the future and I do not want that data to be public.
 
@@ -247,7 +247,7 @@ I also made a [simpel web site](https://plant.hannes.pro) that presents the real
 
 Thinking back on the project it went very well. I hade some trouble making the sunshine sensor work at first and also hade problems with the Picos code crashing. But with some patience and debugging I got everything working.
 
-There is still room for improvements. The sunshine sensor draws more current than it needs to and there is probably a much better way of implementing it. In the future I would want to make 3D printed case for the sensor and solder it to something lika a printed circuit board.
+There is still room for improvements. The sunshine sensor draws more power than it needs to and there is probably a much better way of implementing it. In the future I would want to make 3D printed case for the sensor and solder it to something lika a printed circuit board.
 
 ![figure6](https://github.com/pajserman/IoT-plants/blob/master/images/figure6.jpg)
 *Figure 6: The sensor hard at work*
@@ -275,7 +275,7 @@ The red arrows shows the path of the current. Since the node Vs is directly conn
 
 Dark outside --> transistor on --> LED on --> Vs = 0
 
-![[Drawing 2024-06-28 15.32.24.excalidraw]]
+![figure8](https://github.com/pajserman/IoT-plants/blob/master/images/figure8.svg)
 *Figure 8: Circuit diagram in the dark*
 ### In sunshine
 
@@ -283,5 +283,5 @@ In bright light the photo resistor almost has no resistance, making it act like 
 
 Bright light --> transistor off --> LED off --> Vs = 3.3 V
 
-![[Drawing 2024-06-28 16.24.08.excalidraw]]
+![figure9](https://github.com/pajserman/IoT-plants/blob/master/images/figure9.svg)
 *Figure 9: Circuit diagram in bright light*
