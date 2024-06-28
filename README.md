@@ -17,7 +17,7 @@ This tutorial walks trough the steps of making a simple IoT-device that kan moni
 
 The inspiration for this project came to me when one of my plants in my window dried out from to much sun exposure. I wanted to make a device that can alert me if the sun exposure reaches above a certain threshold and also keep track of overall sun exposure over time. While I was at it I tough I might also monitor temperature and humidity data.
 
-![https://github.com/pajserman/IoT-plants/blob/master/images/figure1.jpg]()
+![figure1](https://github.com/pajserman/IoT-plants/blob/master/images/figure1.jpg)
 *Figure 1: The plant who started it all*
 
 Hopefully this data helps me understand how much sunlight my plants gets and if I need to change something to make their habitat better.
@@ -121,7 +121,7 @@ The whole device can be split in 4 parts: The **Pico**, the **sunshine sensor**,
 
 This sensor works as a standalone part and can be built without the Pico. Down below is the circuit diagram for the sensor. The LED is used as an indicator: when the LED is **off** it means its too bright. You can tune the sensor with the potentiometer. A more in depth explanation on [[#How the sunshine sensor works]] can be found at the end of this tutorial.
 
-![[figure2.svg]]
+![figure2](https://github.com/pajserman/IoT-plants/blob/master/images/figure2.svg)
 *Figure 2: Diagram for the sunshine sensor*
 
 > [!TIP]
@@ -226,7 +226,7 @@ Node-red, which is on the same network (as in a internal docker network) as the 
 
 The other path goes trough a very [simple API](https://github.com/pajserman/IoT-plants/tree/master/other/backend) that I wrote myself that just forwards the data under the topic *Pico/sensor* from the MQTT broker. This API is open to the internet. In this way I can check my plants environment in real time anywhere on earth without having to expose the MQTT broker or Grafana to the internet. The whole reason for hosting everything myself was due to privacy, remember? I might want to use the MQTT broker and Grafan for other projects in the future and I do not want that data to be public.
 
-![[figure3.svg]]
+![figure3](https://github.com/pajserman/IoT-plants/blob/master/images/figure3.svg)
 *Figure 3: How the whole solution is connected*
 
 # Presenting the data
@@ -235,25 +235,25 @@ The data is visualized with a dashboard in [Grafana](https://grafana.com/grafana
 
 The data is sent to the database every 5 seconds. I did some rough calculations and the amount of storage space the data will take upp. In my lifetime it will never succeed 4 GB. So the data is stored forever.
 
-![[figure4.png]]
+![figure4](https://github.com/pajserman/IoT-plants/blob/master/images/figure4.jpg)
 *Figure 4: The dashboard in Grafana*
 
 I also made a [simpel web site](https://plant.hannes.pro) that presents the real time data that is open to the internet. The simpel back-end and front-end code can be found under the folder [*other*](https://github.com/pajserman/IoT-plants/tree/master/other).
 
-![[figure5.jpg]]
-*Figure 5: The simple website available on the internet at [plant.hannes.pro ](https://plant.hannes.pro)*
+![figure5](https://github.com/pajserman/IoT-plants/blob/master/images/figure5.jpg)
+*Figure 5: The simple website available on the internet at [plant.hannes.pro](https://plant.hannes.pro)*
 # Finalizing the design
 
 Thinking back on the project it went very well. I hade some trouble making the sunshine sensor work at first and also hade problems with the Picos code crashing. But with some patience and debugging I got everything working.
 
 There is still room for improvements. The sunshine sensor draws more current than it needs to and there is probably a much better way of implementing it. In the future I would want to make 3D printed case for the sensor and solder it to something lika a printed circuit board.
 
-![[figure6.jpg]]
+![figure6](https://github.com/pajserman/IoT-plants/blob/master/images/figure6.jpg)
 *Figure 6: The sensor hard at work*
 
 <div class="container">
-    <div><img src="figure7a.jpg" alt="figure7a"></div>
-    <div><img src="figure7b.jpg" alt="figure7b"></div>
+    <div><img src="https://github.com/pajserman/IoT-plants/blob/master/images/figure7a.jpg" alt="figure7a"></div>
+    <div><img src="https://github.com/pajserman/IoT-plants/blob/master/images/figure7b.jpg" alt="figure7b"></div>
 
     
 <style>
