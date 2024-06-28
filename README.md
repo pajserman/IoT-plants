@@ -251,18 +251,10 @@ There is still room for improvements. The sunshine sensor draws more current tha
 ![figure6](https://github.com/pajserman/IoT-plants/blob/master/images/figure6.jpg)
 *Figure 6: The sensor hard at work*
 
-<div style="display: flex; flex-direction: row; align-content: stretch; width: 100%">
-    <div><img style="width: 100%;" src="https://github.com/pajserman/IoT-plants/blob/master/images/figure7a.jpg" alt="figure7a"></div>
-    <div><img style="width: 100%;" src="https://github.com/pajserman/IoT-plants/blob/master/images/figure7b.jpg" alt="figure7b"></div>
 
-    
-<style>
 
-    .container div img {
-        width: 100%;
-    }
-</style>
-</div>
+| ![figure7a](https://github.com/pajserman/IoT-plants/blob/master/images/figure7a.jpg) | ![figure7b](https://github.com/pajserman/IoT-plants/blob/master/images/figure7b.jpg) |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
 *Figure 7: The sensor in shade vs in direct sunshine*
 
 ---
