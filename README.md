@@ -235,7 +235,7 @@ The data is visualized with a dashboard in [Grafana](https://grafana.com/grafana
 
 The data is sent to the database every 5 seconds. I did some rough calculations and the amount of storage space the data will take upp. In my lifetime it will never succeed 4 GB. So the data is stored forever.
 
-![figure4](https://github.com/pajserman/IoT-plants/blob/master/images/figure4.jpg)
+![figure4](https://github.com/pajserman/IoT-plants/blob/master/images/figure4.png)
 *Figure 4: The dashboard in Grafana*
 
 I also made a [simpel web site](https://plant.hannes.pro) that presents the real time data that is open to the internet. The simpel back-end and front-end code can be found under the folder [*other*](https://github.com/pajserman/IoT-plants/tree/master/other).
@@ -251,19 +251,12 @@ There is still room for improvements. The sunshine sensor draws more current tha
 ![figure6](https://github.com/pajserman/IoT-plants/blob/master/images/figure6.jpg)
 *Figure 6: The sensor hard at work*
 
-<div class="container">
-    <div><img src="https://github.com/pajserman/IoT-plants/blob/master/images/figure7a.jpg" alt="figure7a"></div>
-    <div><img src="https://github.com/pajserman/IoT-plants/blob/master/images/figure7b.jpg" alt="figure7b"></div>
+<div style="display: flex; flex-direction: row; align-content: stretch; width: 100%">
+    <div><img style="width: 100%;" src="https://github.com/pajserman/IoT-plants/blob/master/images/figure7a.jpg" alt="figure7a"></div>
+    <div><img style="width: 100%;" src="https://github.com/pajserman/IoT-plants/blob/master/images/figure7b.jpg" alt="figure7b"></div>
 
     
 <style>
-    .container {
-        display: flex;
-        flex-direction: row;
-        align-content: stretch;
-        width: 100%;
-
-    }
 
     .container div img {
         width: 100%;
@@ -273,6 +266,7 @@ There is still room for improvements. The sunshine sensor draws more current tha
 *Figure 7: The sensor in shade vs in direct sunshine*
 
 ---
+
 # How the sunshine sensor works
 
 In this example the potentiometer is not included as it does not really change anything in the explanation. If we assume the transistor is correctly biased we can use the switch model (the transistor acts as switch either letting trough current or not).
