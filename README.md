@@ -1,9 +1,10 @@
 # Monitor plant environment (IoT device)
 
 **Author**: Hannes Månsson (id: hm222zv)
+
 **Time to complete build**: 1-3 days
 
-This tutorial walks trough the steps of making a simple IoT-device that kan monitor sun exposure, temperature and humidity of the environment around your plants. This tutorial was mad as an assignment to a [IoT-course](https://lnu.se/en/course/introduction-to-applied-internet-of-things/distance-international-summer/) at Linnaeus University. The project takes about 1 day to build and maybe 2 extra for setting up the digital infrastructure. It all depends on how comfortable you are with programmering and if you have self-hosted services before.
+This tutorial walks through the steps of making a simple IoT-device that can monitor sun exposure, temperature and humidity of the environment around your plants. This tutorial was mad as an assignment to a [IoT-course](https://lnu.se/en/course/introduction-to-applied-internet-of-things/distance-international-summer/) at Linnaeus University. The project takes about 1 day to build and maybe 2 extra for setting up the digital infrastructure. It all depends on how comfortable you are with programmering and if you have self-hosted services before.
 
 > [!IMPORTANT]
 > This tutorial assumes you have a basic knowledge of the concept of Internet Of Things (IoT). If not, here is a list of things you should do some further reading on before preceding:
@@ -11,7 +12,7 @@ This tutorial walks trough the steps of making a simple IoT-device that kan moni
 > - [ ] Basics in [computer networking](https://www.ibm.com/topics/networking).
 > - [ ] The [MQTT](https://mqtt.org/) protocol.
 > - [ ] What is a [server](https://en.wikipedia.org/wiki/Server_(computing))?
-> - [ ] *Optional*: [Basic](https://www.instructables.com/Basic-Electronics/) electronics. 
+> - [ ] *Optional*: [Basic](https://www.instructables.com/Basic-Electronics/) electronics.
 
 # Objective
 
@@ -72,7 +73,7 @@ The Pico W is the heart of the IoT-device and runs all the code and also sends t
 
 ### Step 1: VS Code
 
-* Got the official [download page](https://code.visualstudio.com/) for VS code and download the version for your specific OS . Run the downloaded file and follow the steps in the installer. 
+* Got the official [download page](https://code.visualstudio.com/) for VS code and download the version for your specific OS . Run the downloaded file and follow the steps in the installer.
 * The write the code to the Pico we are going to use an extension in VS Code that is called *PyMakr*. Go the extensions tab in VS Code and search for *PyMakr* and install the first extension that shows up in the results.
 
 ### Step 2: update/install the firmware on your Pico
@@ -87,7 +88,7 @@ We are no going to install the right firmware to the Pico so we can program it w
 > If everything went well the Pico should automatically disconnect itself from the computer! If it did not, somethings wrong and you will have to repeat the steps above.
 
 ### Step 3: uploading the code to the Pico
-Well done! We are now ready to upload the code to the Pico. I recommend you to play around a  with your Pico and try to write your own code and upload it. [This](https://www.youtube.com/watch?v=e-Fs2vhL1l8) video goes trough an example on how to write and upload code to your Pico using the PyMakr extension. 
+Well done! We are now ready to upload the code to the Pico. I recommend you to play around a  with your Pico and try to write your own code and upload it. [This](https://www.youtube.com/watch?v=e-Fs2vhL1l8) video goes trough an example on how to write and upload code to your Pico using the PyMakr extension.
 
 When you are feeling confident in writing code to the Pico, clone this github repository to your computer and open the folder in VS Code.
 
@@ -99,15 +100,15 @@ The Pico is going to be connect to your WIFI. Open the file *keys.py.example* an
 
 You are also free to change the mapping of the pins if you want to. But in the rest of the tutorial I am going to assume you do not.
 
-When everything set you are free to upload the code to the Pico. 
+When everything set you are free to upload the code to the Pico.
 
 > [!TIP]
 > I have programmed the built in LED on the Pico as an indicator:
-> Constant light = No WIFI/trying to connect to WIFI
-> Flash = sent data to MQTT broker
-> 
+> - Constant light = No WIFI/trying to connect to WIFI
+> - Flash = sent data to MQTT broker
+>
 > So it should go something like this when you connect your Pico to the power supply: The LED turns on and stays on for a few seconds, then the LED turn of and starts to flash every 5 seconds (the data is sent every 5 seconds)
-> 
+>
 > Have the Pico connect to a terminal while setting up the sensor. Useful information regarding its state is printed to the terminal. Such as the connection to the WIFI or if a sensor is not connected properly.
 
 # Putting everything together
@@ -119,7 +120,7 @@ The whole device can be split in 4 parts: The **Pico**, the **sunshine sensor**,
 
 ### The sunshine sensor
 
-This sensor works as a standalone part and can be built without the Pico. Down below is the circuit diagram for the sensor. The LED is used as an indicator: when the LED is **off** it means its too bright. You can tune the sensor with the potentiometer. A more in depth explanation on [[#How the sunshine sensor works]] can be found at the end of this tutorial.
+This sensor works as a standalone part and can be built without the Pico. Down below is the circuit diagram for the sensor. The LED is used as an indicator: when the LED is **off** it means its too bright. You can tune the sensor with the potentiometer. A more in depth explanation on [How the sunshine sensor](https://github.com/pajserman/IoT-plants/tree/master?tab=readme-ov-file#how-the-sunshine-sensor-works) works can be found at the end of this tutorial.
 
 ![figure2](https://github.com/pajserman/IoT-plants/blob/master/images/figure2.svg)
 *Figure 2: Diagram for the sunshine sensor*
@@ -134,7 +135,7 @@ This sensor works as a standalone part and can be built without the Pico. Down b
 
 * Connect the ground in the diagram to one of the ground pins on the Pico (all grounds can share the same pin).
 * Connect the Vcc supply to the built in 3.3 V power supply on the Pico (same here, both Vcc can share the same pin)
-* Connect the node marked Vs in the diagram to **Pin 15** on the Pico. 
+* Connect the node marked Vs in the diagram to **Pin 15** on the Pico.
 
 ### The temperature & humidity sensor
 
@@ -146,7 +147,7 @@ This one is very straight forward. The DHT11 sensor has 3 pins: GROUND, POWER an
 
 ### The buzzer (optional)
 
-The buzzer generates a tone when the sunshine is to bright. 
+The buzzer generates a tone when the sunshine is to bright.
 
 * Connect one pin to ground
 * Connect the other to **Pin 5** on the Pico.
@@ -255,6 +256,7 @@ There is still room for improvements. The sunshine sensor draws more current tha
 
 | ![figure7a](https://github.com/pajserman/IoT-plants/blob/master/images/figure7a.jpg) | ![figure7b](https://github.com/pajserman/IoT-plants/blob/master/images/figure7b.jpg) |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+
 *Figure 7: The sensor in shade vs in direct sunshine*
 
 ---
