@@ -17,7 +17,7 @@ This tutorial walks trough the steps of making a simple IoT-device that kan moni
 
 The inspiration for this project came to me when one of my plants in my window dried out from to much sun exposure. I wanted to make a device that can alert me if the sun exposure reaches above a certain threshold and also keep track of overall sun exposure over time. While I was at it I tough I might also monitor temperature and humidity data.
 
-![[figure1.jpg]]
+![[https://github.com/pajserman/IoT-plants/blob/master/images/figure1.jpg]]
 *Figure 1: The plant who started it all*
 
 Hopefully this data helps me understand how much sunlight my plants gets and if I need to change something to make their habitat better.
