@@ -273,7 +273,7 @@ In the diagram below the photo resistor is in the dark making its resistance ver
 
 The red arrows show the path of the current. Since the node Vs is directly connected to ground through the transistor, the current will not take that path through the 100 kohm resistor.
 
-Dark outside --> transistor on --> LED on --> Vs = 0
+Dark outside -> transistor on -> LED on -> Vs = 0
 
 ![figure8](https://github.com/pajserman/IoT-plants/blob/master/images/figure8.svg)
 *Figure 8: Circuit diagram in the dark*
@@ -281,7 +281,7 @@ Dark outside --> transistor on --> LED on --> Vs = 0
 
 In bright light the photo resistor almost has no resistance, making it act like a straight connection to ground. Now all of the voltage will fall over the 470 ohm resistor making the voltage at the base of the transistor 0. The transistor is turned off and the direct path to ground is cut off. The current must now take the path through the 100 kohm resistor. Since the 100 kohm is much much larger than 470 ohm, almost all of the voltage will fall over it. Making the potential in the node Vs equal to 3.3 V. No current will go through the LED since the voltage over it is 0 (LEDs has what is known as a [forward voltage](https://www.google.com/search?q=forward+voltage+red+LED&oq=forward+voltage+red+LED&gs_lcrp=EgZjaHJvbWUyCQgAEEUYORiABDIICAEQABgWGB4yCAgCEAAYFhgeMgoIAxAAGIAEGKIEMgoIBBAAGIAEGKIE0gEIMzYxOGowajeoAgCwAgA&sourceid=chrome&ie=UTF-8)).
 
-Bright light --> transistor off --> LED off --> Vs = 3.3 V
+Bright light -> transistor off -> LED off -> Vs = 3.3 V
 
 ![figure9](https://github.com/pajserman/IoT-plants/blob/master/images/figure9.svg)
 *Figure 9: Circuit diagram in bright light*
