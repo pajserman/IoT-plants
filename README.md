@@ -107,7 +107,7 @@ When everything set you are free to upload the code to the Pico.
 > - Constant light = No WIFI/trying to connect to WIFI
 > - Flash = sent data to MQTT broker
 >
-> So, it should go something like this when you connect your Pico to the power supply: The LED turns on and stays on for a few seconds, then the LED turn of and starts to flash every 5 seconds (the data is sent every 5 seconds)
+> So, it should go something like this when you connect your Pico to the power supply: The LED turns on and stays on for a few seconds, then the LED turns off and starts to flash every 5 seconds (the data is sent every 5 seconds)
 >
 > Have the Pico connect to a terminal while setting up the sensor. Useful information about its state is printed to the terminal. Such as the connection to the WIFI or if a sensor is not connected properly.
 
