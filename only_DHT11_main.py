@@ -1,6 +1,5 @@
 import machine
 from machine import Pin
-from machine import PWM
 import time
 from dht import DHT11
 import keys
@@ -9,16 +8,11 @@ from umqttsimple import MQTTClient
 import ubinascii
 import json
 
-# setup tone generator
-buzzer = PWM(Pin(5))
-buzzer.freq(2093)
-buzzer.duty_u16(0)
-
 
 # Pin variables
 waetherPin = Pin(27, Pin.OUT, Pin.PULL_DOWN)
 weatherSensor = DHT11(waetherPin)
-lightPin = Pin(15, Pin.IN, Pin.PULL_DOWN)
+
 # using the built in LED as an indicator:
 # ON=connecting to WIFI, fast ON/OFF=sent/sending data
 led = Pin("LED", machine.Pin.OUT)
@@ -69,8 +63,7 @@ def gather_data():
     weatherSensor.measure()
     tempC = weatherSensor.temperature()
     hum = weatherSensor.humidity()
-    sun = (lightPin.value() + 1) % 2  # inverting input 1 becomes 0
-    data = {'temperature': tempC, 'humidity': hum, 'sunshine': sun}
+    data = {'temperature': tempC, 'humidity': hum}
     return data
 
 
@@ -79,7 +72,7 @@ while (True):
     try:
         while (wlan.isconnected() == True):
             try:
-                data = gather_data()  # data {temp, hum, sun}
+                data = gather_data()  # data {temp, hum}
                 print(data)
             except:
                 collecting += 1
@@ -87,11 +80,6 @@ while (True):
                     MQTT_TOPIC_ERROR_COLLECTING, str(collecting))
                 print("Something went wrong in collecting data sleeping 5 ...")
                 time.sleep(5)
-            # sounding alarm if sun is to intense
-            if (data['sunshine'] == 0):
-                buzzer.duty_u16(1000)
-            else:
-                buzzer.duty_u16(0)
 
             # publish data
             led.toggle()
