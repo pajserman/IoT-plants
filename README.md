@@ -46,8 +46,8 @@ Hopefully this data helps me understand how much sunlight my plants get and if I
 | 0.47 kohm resistor                           | ![](https://www.electrokit.com/cache/98/700x700-product_41011_41011678_41011678.png) | [Link](https://www.electrokit.com/motstand-2w-4.7kohm-54k7)                 | 2 pcs  | 3 SEK                    |                                                                               | Any 4.7 kohm resistor works                                                                                       |
 | 94 kohm resistor                             | ![](https://www.electrokit.com/upload/product/41015/41015998/41015998.png)           | [Link](https://www.electrokit.com/motstand-metallfilm-0.125w-1100kohm-100k) | 1 pcs  | 3 SEK                    |                                                                               | The key here is that 94 is much much bigger than 0.47. Any resistor much larger than 0.47 works.                  |
 | Wires male-to-male                           | ![](https://www.electrokit.com/upload/product/41015/41015221/41015221.jpg)           | [Link](https://www.electrokit.com/labbsladdar-100mm-hane/hane-30-pack)      | 30 pcs | 39 SEK                   |                                                                               | Your layout on the breadboard is up to you. But you will probably not need more than 30 wires                     |
-| Breadboard                                   | ![](https://www.electrokit.com/upload/product/10160/10160840/10160840.jpg)           | [Link](https://www.electrokit.com/kopplingsdack-840-anslutningar)           | 1 pcs  |                          | For connecting everything                                                     | What I recommend. Should be plenty of room.                                                                       |
-| Buzzer **(optional)**                        | ![](https://www.electrokit.com/upload/product/41003/41003599/41003599.jpg)           | [Link](https://www.electrokit.com/summer-4-khz-miniatyr)                    | 1 pcs  |                          | Used as an indicator                                                          | An extra sound indicator.                                                                                         |
+| Breadboard                                   | ![](https://www.electrokit.com/upload/product/10160/10160840/10160840.jpg)           | [Link](https://www.electrokit.com/kopplingsdack-840-anslutningar)           | 1 pcs  |    69 SEK                      | For connecting everything                                                     | What I recommend. Should be plenty of room.                                                                       |
+| Buzzer **(optional)**                        | ![](https://www.electrokit.com/upload/product/41003/41003599/41003599.jpg)           | [Link](https://www.electrokit.com/summer-4-khz-miniatyr)                    | 1 pcs  |  28.45 SEK                        | Used as an indicator                                                          | An extra sound indicator.                                                                                         |
 
 ### Materials for the IT-infrastructure
 
@@ -107,7 +107,7 @@ When everything set you are free to upload the code to the Pico.
 > - Constant light = No WIFI/trying to connect to WIFI
 > - Flash = sent data to MQTT broker
 >
-> So, it should go something like this when you connect your Pico to the power supply: The LED turns on and stays on for a few seconds, then the LED turn of and starts to flash every 5 seconds (the data is sent every 5 seconds)
+> So, it should go something like this when you connect your Pico to the power supply: The LED turns on and stays on for a few seconds, then the LED turns off and starts to flash every 5 seconds (the data is sent every 5 seconds)
 >
 > Have the Pico connect to a terminal while setting up the sensor. Useful information about its state is printed to the terminal. Such as the connection to the WIFI or if a sensor is not connected properly.
 
@@ -273,7 +273,7 @@ In the diagram below the photo resistor is in the dark making its resistance ver
 
 The red arrows show the path of the current. Since the node Vs is directly connected to ground through the transistor, the current will not take that path through the 100 kohm resistor.
 
-Dark outside --> transistor on --> LED on --> Vs = 0
+Dark outside -> transistor on -> LED on -> Vs = 0
 
 ![figure8](https://github.com/pajserman/IoT-plants/blob/master/images/figure8.svg)
 *Figure 8: Circuit diagram in the dark*
@@ -281,7 +281,7 @@ Dark outside --> transistor on --> LED on --> Vs = 0
 
 In bright light the photo resistor almost has no resistance, making it act like a straight connection to ground. Now all of the voltage will fall over the 470 ohm resistor making the voltage at the base of the transistor 0. The transistor is turned off and the direct path to ground is cut off. The current must now take the path through the 100 kohm resistor. Since the 100 kohm is much much larger than 470 ohm, almost all of the voltage will fall over it. Making the potential in the node Vs equal to 3.3 V. No current will go through the LED since the voltage over it is 0 (LEDs has what is known as a [forward voltage](https://www.google.com/search?q=forward+voltage+red+LED&oq=forward+voltage+red+LED&gs_lcrp=EgZjaHJvbWUyCQgAEEUYORiABDIICAEQABgWGB4yCAgCEAAYFhgeMgoIAxAAGIAEGKIEMgoIBBAAGIAEGKIE0gEIMzYxOGowajeoAgCwAgA&sourceid=chrome&ie=UTF-8)).
 
-Bright light --> transistor off --> LED off --> Vs = 3.3 V
+Bright light -> transistor off -> LED off -> Vs = 3.3 V
 
 ![figure9](https://github.com/pajserman/IoT-plants/blob/master/images/figure9.svg)
 *Figure 9: Circuit diagram in bright light*
