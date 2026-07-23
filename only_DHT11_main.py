@@ -36,18 +36,20 @@ wlan.active(True)
 
 def connect_to_wifi():
     led.on()
-    limit = 0
+    attempts = 0
     wlan.connect(ssid, password)
-    while (wlan.isconnected() == False):
+    while not wlan.isconnected():
         print("Waiting for connection...")
-        limit += 1
-        if (limit > 10):
-            limit = 0
-            print("Time limit reached. Trying again...")
+        attempts += 1
+        if attempts > 30:
+            print("Cannot reconnect after 30s. Resetting device...")
+            machine.reset()
+        if attempts % 10 == 0:
+            print("Retrying connection...")
             wlan.connect(ssid, password)
         time.sleep(1)
     led.off()
-    print("Connected to WIFI", "IP Adress is: " + wlan.ifconfig()[0])
+    print("Connected to WIFI", "IP Address is: " + wlan.ifconfig()[0])
 
 
 # Connecting to WIFI
@@ -74,12 +76,14 @@ while (True):
             try:
                 data = gather_data()  # data {temp, hum}
                 print(data)
-            except:
+            except Exception as exc:
                 collecting += 1
                 mqtt_client.publish(
                     MQTT_TOPIC_ERROR_COLLECTING, str(collecting))
-                print("Something went wrong in collecting data sleeping 5 ...")
+                print("Something went wrong in collecting data:", exc)
+                print("Sleeping 5 ...")
                 time.sleep(5)
+                continue
 
             # publish data
             led.toggle()
@@ -89,6 +93,7 @@ while (True):
             time.sleep(5)
         else:
             connect_to_wifi()
+            mqtt_client.connect()
     except:
         other += 1
         mqtt_client.publish(MQTT_TOPIC_ERROR_OTHER, str(other))
